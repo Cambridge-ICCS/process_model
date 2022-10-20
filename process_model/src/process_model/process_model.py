@@ -59,16 +59,12 @@ def main(model_dirs, output_file, tag_set, signature_def, indent):
                 print('SignatureDef key: \"%s\"' % signature_def_key)
             sys.exit(1)
 
-        input_tensors = signature_def_map[signature_def].inputs
-        output_tensors = signature_def_map[signature_def].outputs
+        # input_tensors = signature_def_map[signature_def].inputs
+        # output_tensors = signature_def_map[signature_def].outputs
 
     tags = tag_set.split(',')
     print(render_template('module_start.F90', indent,
           tags=tags, model_dirs=model_dirs), file=output_file)
-
-#    output_module_init(tag_set, model_dir, indent)
-#    for inp_k in input_tensors:
-#        print(inp_k, '\n', input_tensors[inp_k])
 
 
 def render_template(template_name, indent, **kwargs):
@@ -80,18 +76,6 @@ def render_template(template_name, indent, **kwargs):
     s = t.render(kwargs)
     s = s.replace('\t', ' ' * indent)
     return s
-
-
-def output_module_init(tag_set, model_dirs, indent_level):
-    '''
-    Outputs the Fortran code needed to define and init the module.
-    The init routine will load the ML model and store it in a module
-    variable.
-    '''
-
-    tag_set = 'serve,gpu'
-    tags = tag_set.split(',')
-    max_tag_len = max([len(t) for t in tags])
 
 
 if __name__ == '__main__':
