@@ -10,7 +10,7 @@ env = Environment(
 
 
 @click.command()
-@click.argument('model_dirs', type=click.Path(exists=True,
+@click.argument('model_dir', type=click.Path(exists=True,
                 file_okay=False, dir_okay=True), nargs=-1, required=True)
 @click.option('-o', '--output-file', default='-', type=click.File(mode='wt'),
               help='Where to send Fortran output.')
@@ -21,26 +21,26 @@ env = Environment(
               '`serving_default`)')
 @click.option('--indent', default=4, type=click.INT,
               help='Indentation level of output code (default 4)')
-def main(model_dirs, output_file, tag_set, signature_def, indent):
+def main(model_dir, output_file, tag_set, signature_def, indent):
     '''
     Utility to read a SavedModel TensorFlow model and export the necessary
     Fortran code to allow it to be interfaced with the fortran-tf library.
 
-    MODEL_DIR contains a TensorFlow SavedModel.
+    Each MODEL_DIR contains a TensorFlow SavedModel.
     '''
 
     import sys
     from tensorflow.python.tools import saved_model_utils
-    for model_dir in model_dirs:
+    for model_d in model_dir:
         # Tag-sets
-        tag_sets = saved_model_utils.get_saved_model_tag_sets(model_dir)
+        tag_sets = saved_model_utils.get_saved_model_tag_sets(model_d)
 
         for ts in sorted(tag_sets):
             tag_string = ','.join(sorted(ts))
             if tag_string == tag_set:
                 break
         else:
-            print(f'The SavedModel {model_dir}\ndoes not contain tag-set '
+            print(f'The SavedModel {model_d}\ndoes not contain tag-set '
                   '"{tag_set}".')
             print('It contains the following tag-sets:')
             for ts in sorted(tag_sets):
@@ -48,10 +48,10 @@ def main(model_dirs, output_file, tag_set, signature_def, indent):
             sys.exit(1)
 
         # Signature defs
-        meta_graph = saved_model_utils.get_meta_graph_def(model_dir, tag_set)
+        meta_graph = saved_model_utils.get_meta_graph_def(model_d, tag_set)
         signature_def_map = meta_graph.signature_def
         if signature_def not in signature_def_map:
-            print(f'The SavedModel {model_dir}\ndoes not contain'
+            print(f'The SavedModel {model_d}\ndoes not contain'
                   ' signature-def "{signature_def}".')
             print('The model\'s MetaGraphDef contains SignatureDefs with the '
                   'following keys:')
@@ -64,7 +64,7 @@ def main(model_dirs, output_file, tag_set, signature_def, indent):
 
     tags = tag_set.split(',')
     print(render_template('module_start.F90', indent,
-          tags=tags, model_dirs=model_dirs), file=output_file)
+          tags=tags, model_dirs=model_dir), file=output_file)
 
 
 def render_template(template_name, indent, **kwargs):
