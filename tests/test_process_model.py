@@ -1,6 +1,5 @@
 import subprocess
 import os
-import click
 
 
 def test_f90_created(tmp_path):
