@@ -12,7 +12,7 @@ def test_cli_works(tmp_path):
     assert result.exit_code != 0
     result = runner.invoke(main, ['--help'])
     assert result.exit_code == 0
-    assert 'Usage: main [OPTIONS] MODEL_DIR...' in result.output
+    assert 'Usage: main [OPTIONS] MODEL_DIRS...' in result.output
 
 
 def test_f90_created(tmp_path):
