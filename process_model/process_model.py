@@ -232,7 +232,7 @@ def _map_tf_type_to_fortran(tf_type: str) -> Optional[Tuple[str, str]]:
       TF_UINT64 = 23,
     } TF_DataType;
     """
-    datatypes: Dict[str : Optional[Tuple[str, str]]] = {
+    datatypes: Dict[str, Optional[Tuple[str, str]]] = {
         "TF_FLOAT": ("real(kind=c_float)", "r32"),
         "TF_DOUBLE": ("real(kind=c_double)", "r64"),
         "TF_INT32": ("integer(kind=c_int32_t)", "i32"),
