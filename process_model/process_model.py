@@ -196,6 +196,7 @@ def _render_template(template_name, **kwargs):
     Renders a template, replaces the tabs with `indent` number of spaces,
     returns the result.
     """
+    # TODO: Consider giving t and s more descriptive names.
     t = env.get_template(template_name)
     s = t.render(kwargs)
     return s
