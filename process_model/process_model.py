@@ -286,6 +286,7 @@ class Model:
                 Model.longest_tag_len = len(tag)
         self.inputs = inputs
         self.outputs = outputs
+        # TODO: If `key` is necessarily unused, replace with `_`.
         for key, inp in sorted(inputs.items()):
             tup = _map_tf_type_to_fortran(inp["dtype"])
             if tup:
