@@ -299,7 +299,7 @@ class Model:
                     input_type_dec=tup[0],
                     input_dimension_str=input_dimension_str,
                 )
-                # TODO: I think you should say `functions_needed` below
+                # TODO: I think you should say `self.functions_needed` below
                 Model.functions_needed[
                     f"{tup[1]}_{len(inp['tensor_shape'])}_associate_tensor"
                 ] = assoc_def_str
