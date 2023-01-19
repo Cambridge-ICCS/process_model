@@ -109,7 +109,10 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
                 file=sys.stderr,
             )
             for signature_def_key in sorted(signature_def_map.keys()):
-                print('SignatureDef key: "%s"' % signature_def_key, file=sys.stderr)
+                print(
+                    f'SignatureDef key: "{signature_def_key}"',
+                    file=sys.stderr,
+                )
             sys.exit(1)
 
         # Input and output tensors.
