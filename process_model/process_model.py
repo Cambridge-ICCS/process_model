@@ -13,6 +13,7 @@ from jinja2 import PackageLoader, Environment
 import click
 
 from tensorflow.python.tools import saved_model_utils
+from tensorflow.core.framework import types_pb2
 
 
 replacer = re.compile(r"^DT")
@@ -166,7 +167,6 @@ def _extract_tensor_info(tensors):
     """
     Recovers the useful info from the SavedModel tensor datatype.
     """
-    from tensorflow.core.framework import types_pb2
 
     tf_types = {value: key for (key, value) in types_pb2.DataType.items()}
 
