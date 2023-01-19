@@ -12,6 +12,8 @@ import re
 from jinja2 import PackageLoader, Environment
 import click
 
+from tensorflow.python.tools import saved_model_utils
+
 
 replacer = re.compile(r"^DT")
 
@@ -70,8 +72,6 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
 
     Each MODEL_DIR contains a TensorFlow SavedModel.
     """
-
-    from tensorflow.python.tools import saved_model_utils
 
     models = []
     for model_dir in model_dirs:
