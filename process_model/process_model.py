@@ -1,3 +1,10 @@
+"""A simple one-line summary of this module.
+
+More details, if sensible.
+
+"""
+# TODO: Update module-level docstring
+
 import sys
 from typing import Dict, Optional, Tuple
 
