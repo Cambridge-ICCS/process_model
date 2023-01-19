@@ -1,8 +1,9 @@
-import click
-import re
 import sys
-from jinja2 import PackageLoader, Environment
 from typing import Dict, Optional, Tuple
+
+import re
+from jinja2 import PackageLoader, Environment
+import click
 
 
 replacer = re.compile(r"^DT")
