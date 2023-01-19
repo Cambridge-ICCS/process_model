@@ -156,7 +156,7 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
         output_str += function_str
 
     # Expand the tabs and send the output to the file.
-    output_str += "\nend module {}".format(module_name)
+    output_str += f"\nend module {module_name}"
     output_str = output_str.replace("\t", " " * indent)
 
     print(output_str, file=output_file)
