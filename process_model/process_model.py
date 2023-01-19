@@ -301,7 +301,7 @@ class Model:
                 )
                 # TODO: I think you should say `functions_needed` below
                 Model.functions_needed[
-                    "{}_{}_associate_tensor".format(tup[1], len(inp["tensor_shape"]))
+                    f"{tup[1]}_{len(inp["tensor_shape"])}_associate_tensor"
                 ] = assoc_def_str
 
 
