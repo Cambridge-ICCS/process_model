@@ -301,9 +301,10 @@ class Model:
                 )
                 # TODO: I think you should say `functions_needed` below
                 Model.functions_needed[
-                    f"{tup[1]}_{len(inp["tensor_shape"])}_associate_tensor"
+                    f"{tup[1]}_{len(inp['tensor_shape'])}_associate_tensor"
                 ] = assoc_def_str
 
 
 if __name__ == "__main__":
+    # TODO: Is there some click magic here I don't get, or do you need args?
     main()
