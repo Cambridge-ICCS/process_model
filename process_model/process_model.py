@@ -271,6 +271,7 @@ class Model:
     Utility class to hold info about each ML model.
     """
 
+    # TODO: Consider type-hinting `functions_needed`.
     functions_needed = {}
     longest_tag_len = 0
 
