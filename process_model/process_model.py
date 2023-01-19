@@ -25,6 +25,8 @@ env = Environment(
 )
 
 # TODO: Consider adding type hints to the function defs.
+# TODO: Consider adding argument types and descriptions to docstrings.
+# TODO: consider linting with mypy, pydoctyle (numpy convention?) and pylint.
 
 
 @click.command()
