@@ -294,6 +294,7 @@ class Model:
                     input_type_dec=tup[0],
                     input_dimension_str=input_dimension_str,
                 )
+                # TODO: I think you should say `functions_needed` below
                 Model.functions_needed[
                     "{}_{}_associate_tensor".format(tup[1], len(inp["tensor_shape"]))
                 ] = assoc_def_str
