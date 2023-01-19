@@ -24,6 +24,8 @@ env = Environment(
     trim_blocks=True,
 )
 
+# TODO: Consider adding type hints to the function defs.
+
 
 @click.command()
 @click.argument(
