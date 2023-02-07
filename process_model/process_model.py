@@ -1,9 +1,10 @@
-"""A simple one-line summary of this module.
+"""process_model outputs a Fortran module to interface to the given TF models
 
-More details, if sensible.
+process_model uses some of the methods provided in the TensorFlow
+saved_model_cli app to inspect a TensorFlow SavedModel and output the necessary
+Fortran to interface it to the fortran-tf-lib library.
 
 """
-# TODO: Update module-level docstring
 
 import sys
 from typing import Dict, Optional, Tuple
