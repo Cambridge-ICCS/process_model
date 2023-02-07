@@ -84,7 +84,6 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
         'module_start.F90',
         functions_needed=Model.functions_needed,
         module_name=module_name,
-        model_dirs=model_dirs
     )
 
     # Keep the next part quite simple so it's easy to extend.
