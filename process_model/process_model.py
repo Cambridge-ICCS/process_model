@@ -7,14 +7,10 @@ Fortran to interface it to the fortran-tf-lib library.
 """
 
 import sys
-from typing import Dict, Optional, Tuple
-
 import re
-from jinja2 import PackageLoader, Environment
 import click
-
-from tensorflow.python.tools import saved_model_utils
-from tensorflow.core.framework import types_pb2
+from typing import Any, Dict, List, Optional, Sequence, TextIO, Tuple
+from jinja2 import Environment, PackageLoader
 
 
 replacer = re.compile(r"^DT")
@@ -78,6 +74,12 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
 
     Each MODEL_DIR contains a TensorFlow SavedModel.
     """
+
+    # Put these imports here because tensorflow takes a _very_ long time to
+    # load, and the user may just be doing a --help invocation.
+    #
+    # Look, don't blame me, blame TensorFlow.
+    from tensorflow.python.tools import saved_model_utils
 
     models = []
     for model_dir in model_dirs:
@@ -175,6 +177,13 @@ def _extract_tensor_info(tensors):
     """
     Recovers the useful info from the SavedModel tensor datatype.
     """
+    # Put these imports here because tensorflow takes a _very_ long time to
+    # load, and the user may just be doing a --help invocation.
+    #
+    # Look, don't blame me, blame TensorFlow.
+    #
+    # Also the type stubs for tensorflow don't believe this package exists.
+    from tensorflow.core.framework import types_pb2  # type: ignore
 
     tf_types = {value: key for (key, value) in types_pb2.DataType.items()}
 
