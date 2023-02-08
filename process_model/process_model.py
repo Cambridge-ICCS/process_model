@@ -110,6 +110,7 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
             if tag_string == tag_set:
                 break
         else:
+            # Reach here when the for loop finishes normally.
             print(
                 f"The SavedModel {model_dir}\ndoes not contain tag-set " '"{tag_set}".',
                 file=sys.stderr,
@@ -303,7 +304,7 @@ class Model:
     Utility class to hold info about each ML model.
     """
 
-    # TODO: Consider type-hinting `functions_needed`.
+    # Class attributes.
     functions_needed = {}
     longest_tag_len = 0
 
