@@ -67,7 +67,14 @@ env = Environment(
     type=click.INT,
     help="Indentation level of output Fortran code (default 4)",
 )
-def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
+def main(
+    model_dirs: Sequence[click.Path],
+    output_file: TextIO,
+    tag_set: str,
+    module_name: str,
+    signature_def: str,
+    indent: int,
+):
     """Main method for process_model.
 
     Parameters
@@ -99,10 +106,12 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
     # Look, don't blame me, blame TensorFlow.
     from tensorflow.python.tools import saved_model_utils
 
-    models = []
+    models: List[Model] = []
     for model_dir in model_dirs:
         # Tag-sets
-        tag_sets = saved_model_utils.get_saved_model_tag_sets(model_dir)
+        tag_sets: Sequence[str] = saved_model_utils.get_saved_model_tag_sets(
+            model_dir
+        )
         tags = tag_set.split(",")
 
         for ts in sorted(tag_sets):
@@ -152,7 +161,7 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
         models.append(Model(model_dir, tags, inputs, outputs))
 
     # Start generating Fortran.
-    output_str = _render_template(
+    output_str: str = _render_template(
         "module_start.F90",
         functions_needed=Model.functions_needed,
         module_name=module_name,
@@ -192,7 +201,7 @@ def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
     print(output_str, file=output_file)
 
 
-def _extract_tensor_info(tensors):
+def _extract_tensor_info(tensors) -> Dict[str, Dict[str, Any]]:
     """
     Recovers the useful info from the SavedModel tensor datatype.
     """
@@ -206,7 +215,7 @@ def _extract_tensor_info(tensors):
 
     tf_types = {value: key for (key, value) in types_pb2.DataType.items()}
 
-    tensor_info = {}
+    tensor_info: Dict[str, Dict[str, Any]] = {}
     for k, v in tensors.items():
         tensor_info[k] = {
             "name": v.name[: v.name.index(":")],
@@ -220,7 +229,7 @@ def _extract_tensor_info(tensors):
     return tensor_info
 
 
-def _render_template(template_name, **kwargs):
+def _render_template(template_name, **kwargs) -> str:
     """
     Renders a Jinja template.
     """
@@ -305,7 +314,7 @@ class Model:
     """
 
     # Class attributes.
-    functions_needed = {}
+    functions_needed: Dict[str, str] = {}
     longest_tag_len = 0
 
     def __init__(self, model_dir, tags, inputs, outputs):
