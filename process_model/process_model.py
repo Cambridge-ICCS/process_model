@@ -38,7 +38,7 @@ env = Environment(
     "--output-file",
     default="-",
     type=click.File(mode="wt"),
-    help="Where to send Fortran output.",
+    help="Where to save the Fortran output (default stdout).",
 )
 @click.option(
     "-t",
@@ -65,7 +65,7 @@ env = Environment(
     "--indent",
     default=4,
     type=click.INT,
-    help="Indentation level of output code (default 4)",
+    help="Indentation level of output Fortran code (default 4)",
 )
 def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
     """
