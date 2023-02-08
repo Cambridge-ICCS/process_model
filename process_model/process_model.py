@@ -121,7 +121,8 @@ def main(
         else:
             # Reach here when the for loop finishes normally.
             print(
-                f"The SavedModel {model_dir}\ndoes not contain tag-set " '"{tag_set}".',
+                f"The SavedModel {model_dir}\ndoes not contain tag-set "
+                '"{tag_set}".',
                 file=sys.stderr,
             )
             print("It contains the following tag-sets:", file=sys.stderr)
@@ -191,7 +192,7 @@ def main(
         module_name=module_name,
     )
 
-    for key, function_str in sorted(Model.functions_needed.items()):
+    for _, function_str in sorted(Model.functions_needed.items()):
         output_str += function_str
 
     # Expand the tabs and send the output to the file.
@@ -219,7 +220,7 @@ def _extract_tensor_info(tensors) -> Dict[str, Dict[str, Any]]:
     for k, v in tensors.items():
         tensor_info[k] = {
             "name": v.name[: v.name.index(":")],
-            "index": int(v.name[v.name.index(":") + 1 :]),
+            "index": int(v.name[v.name.index(":") + 1:]),
             "dtype": replacer.sub("TF", tf_types[v.dtype]),
             "tensor_shape": [],
         }
@@ -233,10 +234,9 @@ def _render_template(template_name, **kwargs) -> str:
     """
     Renders a Jinja template.
     """
-    # TODO: Consider giving t and s more descriptive names.
-    t = env.get_template(template_name)
-    s = t.render(kwargs)
-    return s
+    template = env.get_template(template_name)
+    output_string = template.render(kwargs)
+    return output_string
 
 
 def _map_tf_type_to_fortran(tf_type: str) -> Optional[Tuple[str, str]]:
@@ -325,8 +325,7 @@ class Model:
                 Model.longest_tag_len = len(tag)
         self.inputs = inputs
         self.outputs = outputs
-        # TODO: If `key` is necessarily unused, replace with `_`.
-        for key, inp in sorted(inputs.items()):
+        for _, inp in sorted(inputs.items()):
             tup = _map_tf_type_to_fortran(inp["dtype"])
             if tup:
                 input_shape_len = len(inp["tensor_shape"])
@@ -338,12 +337,10 @@ class Model:
                     input_type_dec=tup[0],
                     input_dimension_str=input_dimension_str,
                 )
-                # TODO: I think you should say `self.functions_needed` below
                 Model.functions_needed[
                     f"{tup[1]}_{len(inp['tensor_shape'])}_associate_tensor"
                 ] = assoc_def_str
 
 
 if __name__ == "__main__":
-    # TODO: Is there some click magic here I don't get, or do you need args?
     main()
