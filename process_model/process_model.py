@@ -68,7 +68,25 @@ env = Environment(
     help="Indentation level of output Fortran code (default 4)",
 )
 def main(model_dirs, output_file, tag_set, module_name, signature_def, indent):
-    """
+    """Main method for process_model.
+
+    Parameters
+    ----------
+    model_dirs : List[click.Path]
+        A list of click.Paths to directories containing TensorFlow SavedModels.
+    output_file : click.File
+        Where to save the generated Fortran.
+    tag_set : click.STRING
+        TensorFlow tag_set, e.g. 'serve,gpu', or 'serve' (the default).
+    module_name : click.STRING
+        The name to give the Fortran module (default 'ml_module').
+    signature_def : click.STRING
+        An opaque parameter for the TensorFlow model.
+        Default 'serving_default'.
+    indent : click.INT
+        Indentation width in spaces for generated Fortran code (default 4).
+
+
     Utility to read a SavedModel TensorFlow model and export the necessary
     Fortran code to allow it to be interfaced with the fortran-tf library.
 
@@ -203,8 +221,7 @@ def _extract_tensor_info(tensors):
 
 def _render_template(template_name, **kwargs):
     """
-    Renders a template, replaces the tabs with `indent` number of spaces,
-    returns the result.
+    Renders a Jinja template.
     """
     # TODO: Consider giving t and s more descriptive names.
     t = env.get_template(template_name)
@@ -221,6 +238,8 @@ def _map_tf_type_to_fortran(tf_type: str) -> Optional[Tuple[str, str]]:
         The r32 part will help form the Fortran associate_tensor function name:
         E.g. TF_FLOAT, [:,40] -> r32_2_associate_tensor
 
+        Returns None if we don't know how to associate that kind of Tensor
+        from Fortran.
 
         Data taken from include/tensorflow/c/tf_datatype.h:
     typedef enum TF_DataType {
