@@ -1,4 +1,4 @@
-"""process_model outputs a Fortran module to interface to the given TF models
+"""Code to output a Fortran module to interface to the given TF models.
 
 process_model uses some of the methods provided in the TensorFlow
 saved_model_cli app to inspect a TensorFlow SavedModel and output the necessary
