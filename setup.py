@@ -30,7 +30,8 @@ necessary Fortran code to interface it to the fortran-tf-lib.
     ],
     entry_points={
         'console_scripts': [
-            'process_model = process_model.process_model:main',
+            'process_model = process_model:main',
         ],
     },
+    package_data={'process_model': ['templates/*.F90']},
 )
